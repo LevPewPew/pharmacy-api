@@ -1,4 +1,7 @@
-import static spark.Spark.*;
+import static spark.Spark.get;
+import static spark.Spark.post;
+
+import com.google.gson.Gson;
 
 import org.apache.log4j.BasicConfigurator;
 
@@ -12,35 +15,27 @@ public class Main {
     public static void main(String[] args) {
 //        BasicConfigurator.configure();
 
-        get("/hello", (req, res) -> {
-            System.out.println("hello world!!!!!");
-            return "Hello World";
+        final MedicineService medicineService = new MedicineServiceMapImpl();
+
+        get("/medicines", (request, response) -> {
+            response.type("application/json");
+
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicineService.getMedicines())));
         });
 
-        get("/medication", (req, res) -> {
-            System.out.println("here is some medication info");
+        get("/medicines/:id", (request, response) -> {
+            response.type("application/json");
 
-            JSONObject employeeDetails = new JSONObject();
-            employeeDetails.put("firstName", "Lokesh");
-            employeeDetails.put("lastName", "Gupta");
-            JSONArray employeeList = new JSONArray();
-            employeeList.add(employeeDetails);
-
-            try (FileWriter file = new FileWriter("employees.json")) {
-                file.write(employeeList.toJSONString());
-                file.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return "here is some medication info";
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicineService.getMedicine(request.params(":id")))));
         });
+        
+        post("/medicines", (request, response) -> {
+            response.type("application/json");
 
-        post("/medication", (req, res) -> {
-            System.out.println("thank you for this medication info");
-            System.out.println(req.body());
-            System.out.println(req.queryParams("medicationStrings"));
-            return "thank you for this medication info";
+            Medicine medicine = new Gson().fromJson(request.body(), Medicine.class);
+            medicineService.addMedicine(medicine);
+
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
         });
     }
 }
