@@ -22,8 +22,8 @@ public class Main {
             response.type("application/json");
             System.out.println(request.body());
 
-            MedicationsStrings medicationsStrings = new Gson().fromJson(request.body(), MedicationsStrings.class);
-            String[] medicationString = medicationsStrings.getMedicationsStrings().split(";");
+            MedicationStrings medicationStrings = new Gson().fromJson(request.body(), MedicationStrings.class);
+            String[] medicationString = medicationStrings.getMedicationStrings().split(";");
 
             for(String string : medicationString) {
                 String[] medicationAttributes = string.split("_");
