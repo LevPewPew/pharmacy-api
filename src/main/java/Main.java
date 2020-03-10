@@ -1,5 +1,6 @@
 import static spark.Spark.get;
 import static spark.Spark.post;
+
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -24,10 +25,24 @@ public class Main {
             response.type("application/json");
             System.out.println(request.body());
 
-            MedicationStrings medicationStrings = new Gson().fromJson(request.body(), MedicationStrings.class);
-//            String[] medicationString = medicationStrings.getMedicationStrings().split(";");
-            List<String> medicationString = medicationStrings.getMedicationStrings();
-            for(String string : medicationString) {
+            // create an array of Strings out of the json, try each possible format
+            String[] medicationStrings = new String[0];
+            try {
+                MedicationStringsString medicationStringsString = new Gson().fromJson(request.body(), MedicationStringsString.class);
+                medicationStrings = medicationStringsString.getMedicationStringsString().split(";");
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            try {
+                MedicationStringsList medicationStringsList = new Gson().fromJson(request.body(), MedicationStringsList.class);
+                List<String> medicationList = medicationStringsList.getMedicationStrings();
+                medicationStrings = medicationList.stream().toArray(String[]::new);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
+            // split up each string and create a medicine model and add to hash
+            for (String string : medicationStrings) {
                 String[] medicationAttributes = string.split("_");
                 String id = medicationAttributes[0];
                 String bottleSize = medicationAttributes[1];
