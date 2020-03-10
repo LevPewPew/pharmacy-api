@@ -3,37 +3,33 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-import org.apache.log4j.BasicConfigurator;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) {
 //        BasicConfigurator.configure();
 
-        final MedicineService medicineService = new MedicineServiceMapImpl();
+        final MedicationService medicationService = new MedicationServiceMapImpl();
 
-        get("/medicines", (request, response) -> {
+        get("/medications", (request, response) -> {
             response.type("application/json");
 
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicineService.getMedicines())));
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
         });
 
-        get("/medicines/:id", (request, response) -> {
+        get("/medications/:id", (request, response) -> {
             response.type("application/json");
 
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicineService.getMedicine(request.params(":id")))));
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicine(request.params(":id")))));
         });
         
-        post("/medicines", (request, response) -> {
+        post("/medications", (request, response) -> {
             response.type("application/json");
+            System.out.println(request.body());
 
-            Medicine medicine = new Gson().fromJson(request.body(), Medicine.class);
-            medicineService.addMedicine(medicine);
+//            Gson testGson = new Gson().fromJson(request.body(), );
+//            System.out.println(testGson);
+
+            Medication medication = new Gson().fromJson(request.body(), Medication.class);
+            medicationService.addMedicine(medication);
 
             return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
         });
