@@ -2,12 +2,16 @@ class Medicine {
     private String id;
     private String bottleSize;
     private int dosageCount;
+    private String medicationStrings;
 
-    public Medicine(String id, String bottleSize, int dosageCount) {
+    public Medicine(String id, String bottleSize, int dosageCount, String medicationStrings) {
         super();
+
+        
         this.id = id;
         this.bottleSize = bottleSize;
         this.dosageCount = dosageCount;
+        this.medicationStrings = medicationStrings;
     }
 
     public String getId() {
@@ -32,5 +36,13 @@ class Medicine {
 
     public void setDosageCount(int dosageCount) {
         this.dosageCount = dosageCount;
+    }
+
+    public String getMedicationStrings() {
+        return medicationStrings;
+    }
+
+    public void setMedicationStrings(String medicationStrings) {
+        this.medicationStrings = medicationStrings;
     }
 }
