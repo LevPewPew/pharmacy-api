@@ -2,6 +2,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         final MedicationService medicationService = new MedicationServiceMapImpl();
@@ -23,8 +25,8 @@ public class Main {
             System.out.println(request.body());
 
             MedicationStrings medicationStrings = new Gson().fromJson(request.body(), MedicationStrings.class);
-            String[] medicationString = medicationStrings.getMedicationStrings().split(";");
-
+//            String[] medicationString = medicationStrings.getMedicationStrings().split(";");
+            List<String> medicationString = medicationStrings.getMedicationStrings();
             for(String string : medicationString) {
                 String[] medicationAttributes = string.split("_");
                 String id = medicationAttributes[0];

@@ -1,34 +1,38 @@
-class MedicationStrings {
-    private String medicationStrings;
+//class MedicationStrings {
+//    private String medicationStrings;
+//
+//    public MedicationStrings(String medicationStrings) {
+//        super();
+//
+//        this.medicationStrings = medicationStrings;
+//    }
+//
+//    public String getMedicationStrings() {
+//        return medicationStrings;
+//    }
+//
+//    public void setMedicationStrings(String medicationStrings) {
+//        this.medicationStrings = medicationStrings;
+//    }
+//}
 
-    public MedicationStrings(String medicationStrings) {
+//import java.awt.*;
+import java.util.List;
+
+class MedicationStrings {
+    private List<String> medicationStrings;
+
+    public MedicationStrings(List<String> medicationStrings) {
         super();
 
         this.medicationStrings = medicationStrings;
     }
 
-    public String getMedicationStrings() {
+    public List<String> getMedicationStrings() {
         return medicationStrings;
     }
 
-    public void setMedicationStrings(String medicationStrings) {
+    public void setMedicationStrings(List<String> medicationStrings) {
         this.medicationStrings = medicationStrings;
     }
 }
-//class MedicationStrings {
-//    private List medicationsStrings;
-//
-//    public MedicationStrings(String medicationsStrings) {
-//        super();
-//
-//        this.medicationsStrings = medicationsStrings;
-//    }
-//
-//    public String getMedicationsStrings() {
-//        return medicationsStrings;
-//    }
-//
-//    public void setMedicationsStrings(String medicationsStrings) {
-//        this.medicationsStrings = medicationsStrings;
-//    }
-//}
