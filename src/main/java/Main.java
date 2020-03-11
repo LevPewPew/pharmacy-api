@@ -3,27 +3,30 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         final MedicationService medicationService = new MedicationServiceMapImpl();
 
-        get("/medications", (request, response) -> {
+        get("/medications/statistics", (request, response) -> {
             response.type("application/json");
 
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
+//            String allData = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
+            HashMap<String, Integer> allData = medicationService.getStatistics();
+            System.out.println(allData);
+
+            return new Gson().toJson(allData);
         });
 
-        get("/medications/:id", (request, response) -> {
+        get("/medications", (request, response) -> {
             response.type("application/json");
-
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicine(request.params(":id")))));
+            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
         });
 
         post("/medications", (request, response) -> {
             response.type("application/json");
-            System.out.println(request.body());
 
             // create an array of Strings out of the json, try each possible format
             String[] medicationStrings = new String[0];
@@ -44,11 +47,14 @@ public class Main {
             // split up each string and create a medicine model and add to hash
             for (String string : medicationStrings) {
                 String[] medicationAttributes = string.split("_");
-                String id = medicationAttributes[0];
+                String medicationId = medicationAttributes[0];
                 String bottleSize = medicationAttributes[1];
                 int dosageCount = Integer.parseInt(medicationAttributes[2]);
+                // generate a uniqueId, needed so that statistics can keep track of multiple inputs of the same medicine
+                // by preventing overwriting Medicine with the same medicationId
+                int id = System.identityHashCode(medicationId);
 
-                String json = String.format("{\"id\":\"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, bottleSize, dosageCount);
+                String json = String.format("{\"id\":\"%s\", \"medicationId\": \"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, medicationId, bottleSize, dosageCount);
                 Medication medication = new Gson().fromJson(json, Medication.class);
                 medicationService.addMedicine(medication);
             }

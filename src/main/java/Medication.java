@@ -1,22 +1,32 @@
 class Medication {
-    private String id;
+    private int id;
+    private String medicationId;
     private String bottleSize;
     private int dosageCount;
 
-    public Medication(String id, String bottleSize, int dosageCount) {
+    public Medication(int id, String medicationId, String bottleSize, int dosageCount) {
         super();
 
         this.id = id;
+        this.medicationId = medicationId;
         this.bottleSize = bottleSize;
         this.dosageCount = dosageCount;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMedicationId() {
+        return medicationId;
+    }
+
+    public void setMedicationId(String medicationId) {
+        this.medicationId = medicationId;
     }
 
     public String getBottleSize() {
