@@ -33,11 +33,45 @@ public class MedicationServiceMapImpl implements MedicationService {
         int totalMeds = 0;
         int totalDosages = 0;
         HashMap<String, Integer> totalMedsByBottleSize = new HashMap<String, Integer>();
+        totalMedsByBottleSize.put("totalMedsInS", 0);
+        totalMedsByBottleSize.put("totalMedsInM", 0);
+        totalMedsByBottleSize.put("totalMedsInL", 0);
+        totalMedsByBottleSize.put("totalMedsInXL", 0);
+        totalMedsByBottleSize.put("totalMedsInXXL", 0);
+        totalMedsByBottleSize.put("totalMedsInNA", 0);
         HashMap<String, Integer> perMedsSupplyCount = new HashMap<String, Integer>();;
 
         for (Medication medication : medicationMap.values()) {
+            // stat 1
             totalMeds += 1;
+
+            // stat 2
             totalDosages += medication.getDosageCount();
+
+            // stat 3
+            switch(medication.getBottleSize()) {
+                case "S":
+                    totalMedsByBottleSize.put("totalMedsInS", totalMedsByBottleSize.get("totalMedsInS") + 1);
+                    break;
+                case "M":
+                    totalMedsByBottleSize.put("totalMedsInM", totalMedsByBottleSize.get("totalMedsInM") + 1);
+                    break;
+                case "L":
+                    totalMedsByBottleSize.put("totalMedsInL", totalMedsByBottleSize.get("totalMedsInL") + 1);
+                    break;
+                case "XL":
+                    totalMedsByBottleSize.put("totalMedsInXL", totalMedsByBottleSize.get("totalMedsInXL") + 1);
+                    break;
+                case "XXL":
+                    totalMedsByBottleSize.put("totalMedsInXXL", totalMedsByBottleSize.get("totalMedsInXXL") + 1);
+                    break;
+                case "NA":
+                    totalMedsByBottleSize.put("totalMedsInNA", totalMedsByBottleSize.get("totalMedsInNA") + 1);
+                    break;
+                default:
+                    // code block
+            }
+
             System.out.println("```````````````````````````````");
             System.out.println(medication.getId());
             System.out.println(medication.getMedicationId());
@@ -48,7 +82,13 @@ public class MedicationServiceMapImpl implements MedicationService {
 
         statistics.put("totalMeds", totalMeds);
         statistics.put("totalDosages", totalDosages);
-
+        statistics.put("totalMedsInS", totalMedsByBottleSize.get("totalMedsInS"));
+        statistics.put("totalMedsInM", totalMedsByBottleSize.get("totalMedsInM"));
+        statistics.put("totalMedsInL", totalMedsByBottleSize.get("totalMedsInL"));
+        statistics.put("totalMedsInXL", totalMedsByBottleSize.get("totalMedsInXL"));
+        statistics.put("totalMedsInXXL", totalMedsByBottleSize.get("totalMedsInXXL"));
+        statistics.put("totalMedsInNA", totalMedsByBottleSize.get("totalMedsInNA"));
+        
         return statistics;
     }
 }
