@@ -1,6 +1,8 @@
+package com.lev.medication;
+
 import java.util.Arrays;
 
-class Medication {
+public class Medication {
     private int id;
     private String medicationId;
     private String bottleSize;
@@ -47,7 +49,7 @@ class Medication {
         this.dosageCount = dosageCount;
     }
 
-    static boolean validate(Medication medication) {
+    public static boolean validate(Medication medication) {
         boolean medicationIdValid = false;
         boolean bottleSizeValid = false;
         boolean dosageCountValid = false;

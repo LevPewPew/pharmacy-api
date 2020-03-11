@@ -1,5 +1,6 @@
 import java.util.Collection;
 import java.util.HashMap;
+import com.lev.medication.Medication;
 
 public class MedicationServiceMapImpl implements MedicationService {
     private HashMap<Integer, Medication> medicationMap;
@@ -8,7 +9,6 @@ public class MedicationServiceMapImpl implements MedicationService {
         medicationMap = new HashMap<>();
     }
 
-    @Override
     public void addMedicine(Medication medication) {
         medicationMap.put(medication.getId(), medication);
     }

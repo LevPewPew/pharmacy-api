@@ -1,3 +1,5 @@
+import com.lev.medication.Medication;
+
 import java.util.HashMap;
 
 public interface MedicationService {
