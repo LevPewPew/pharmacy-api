@@ -49,7 +49,14 @@ public class Main {
 
                 String json = String.format("{\"id\":\"%s\", \"medicationId\": \"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, medicationId, bottleSize, dosageCount);
                 Medication medication = new Gson().fromJson(json, Medication.class);
-                medicationService.addMedicine(medication);
+                try {
+                    if (!Medication.validate(medication)) {
+                        throw new Exception("medicationStrings format not valid");
+                    }
+                    medicationService.addMedicine(medication);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
 
             return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
