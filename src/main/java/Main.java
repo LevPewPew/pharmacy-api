@@ -61,5 +61,11 @@ public class Main {
 
             return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
         });
+
+        get("/*", (request, response) -> {
+            response.type("application/json");
+            response.status(403);
+            return "This endpoint does not exist";
+        });
     }
 }
