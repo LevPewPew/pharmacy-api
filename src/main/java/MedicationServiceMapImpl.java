@@ -13,53 +13,69 @@ public class MedicationServiceMapImpl implements MedicationService {
         medicationMap.put(medication.getId(), medication);
     }
 
-    @Override
-    public Collection<Medication> getMedicines() {
-        return medicationMap.values();
-    }
-
-    @Override
-    public Medication getMedicine(String id) {
-        return medicationMap.get(id);
-    }
-
     // in this method i have assumed that "the total number of medications that have been inputted" refers to total
     // amount of medicine strings that have been posted (i.e. total amount of Medicine objects created), not the total
     // amount of unique medicationIds.
     @Override
     public HashMap<String, Integer> getStatistics() {
         HashMap<String, Integer> statistics = new HashMap<String, Integer>();
-
-        int totalMeds = 0;
-        int totalDosages = 0;
-        HashMap<String, Integer> totalMedsByBottleSize = new HashMap<String, Integer>();
-        HashMap<String, Integer> perMedsSupplyCount = new HashMap<String, Integer>();
-
-        for (Medication medication : medicationMap.values()) {
-            // stat 1
-            totalMeds += 1;
-
-            // stat 2
-            totalDosages += medication.getDosageCount();
-
-            // stat 3
-            String bottleSize = medication.getBottleSize();
-            totalMedsByBottleSize.merge(bottleSize, 1, Integer::sum);
-
-            // stat 4
-            String medicationId = medication.getMedicationId();
-            perMedsSupplyCount.merge(medicationId, 1, Integer::sum);
-        }
-
+        
+        int totalMeds = getTotalMeds(medicationMap);
+        int totalDosages = getTotalDosages(medicationMap);
+        HashMap<String, Integer> totalMedsPerBottleSize = getTotalMedsPerBottleSize(medicationMap);
+        HashMap<String, Integer> supplyCountPerMed = getSupplyCountPerMed(medicationMap);
+        
         statistics.put("totalMeds", totalMeds);
         statistics.put("totalDosages", totalDosages);
-        for (String bottleSize : totalMedsByBottleSize.keySet()) {
-            statistics.put(String.format("Total medication in bottle size %s:", bottleSize), totalMedsByBottleSize.get(bottleSize));
+        for (String bottleSize : totalMedsPerBottleSize.keySet()) {
+            statistics.put(String.format("Total medication in bottle size %s:", bottleSize), totalMedsPerBottleSize.get(bottleSize));
         }
-        for (String medicationId : perMedsSupplyCount.keySet()) {
-            statistics.put(String.format("Total times supplied with medicationID %s:", medicationId), perMedsSupplyCount.get(medicationId));
+        for (String medicationId : supplyCountPerMed.keySet()) {
+            statistics.put(String.format("Total times supplied with medicationID %s:", medicationId), supplyCountPerMed.get(medicationId));
         }
-        
+
         return statistics;
+    }
+
+    private int getTotalMeds(HashMap<Integer, Medication> medicationMap) {
+        int totalMeds = 0;
+
+        for (int i = 0; i < medicationMap.size(); i++) {
+            totalMeds += 1;
+        }
+
+        return totalMeds;
+    }
+
+    private int getTotalDosages(HashMap<Integer, Medication> medicationMap) {
+        int totalDosages = 0;
+
+        for (Medication medication : medicationMap.values()) {
+            totalDosages += medication.getDosageCount();
+        }
+
+        return totalDosages;
+    }
+
+    private HashMap<String, Integer> getTotalMedsPerBottleSize(HashMap<Integer, Medication> medicationMap) {
+        HashMap<String, Integer> totalMedsPerBottleSize = new HashMap<String, Integer>();
+
+        for (Medication medication : medicationMap.values()) {
+            String bottleSize = medication.getBottleSize();
+            totalMedsPerBottleSize.merge(bottleSize, 1, Integer::sum);
+        }
+
+        return totalMedsPerBottleSize;
+    }
+
+    private HashMap<String, Integer> getSupplyCountPerMed(HashMap<Integer, Medication> medicationMap) {
+        HashMap<String, Integer> supplyCountPerMed = new HashMap<String, Integer>();
+
+        for (Medication medication : medicationMap.values()) {
+            String medicationId = medication.getMedicationId();
+            supplyCountPerMed.merge(medicationId, 1, Integer::sum);
+        }
+
+        return supplyCountPerMed;
     }
 }

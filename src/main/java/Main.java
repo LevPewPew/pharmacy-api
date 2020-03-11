@@ -13,16 +13,9 @@ public class Main {
         get("/medications/statistics", (request, response) -> {
             response.type("application/json");
 
-//            String allData = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
             HashMap<String, Integer> allData = medicationService.getStatistics();
-            System.out.println(allData);
 
             return new Gson().toJson(allData);
-        });
-
-        get("/medications", (request, response) -> {
-            response.type("application/json");
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(medicationService.getMedicines())));
         });
 
         post("/medications", (request, response) -> {
