@@ -15,9 +15,9 @@ public class Main {
         get("/medications/statistics", (request, response) -> {
             response.type("application/json");
 
-            HashMap<String, Integer> allData = medicationService.getStatistics();
+            HashMap<String, Integer> medicationsStatistics = getMedicationsStatistics(medicationService);
 
-            return new Gson().toJson(allData);
+            return new Gson().toJson(medicationsStatistics);
         });
 
         post("/medications", (request, response) -> {
@@ -69,5 +69,9 @@ public class Main {
             response.status(403);
             return "This endpoint does not exist";
         });
+    }
+
+    public static HashMap<String, Integer> getMedicationsStatistics(MedicationService medicationService) {
+        return medicationService.getStatistics();
     }
 }
