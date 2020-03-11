@@ -39,7 +39,26 @@ public class MedicationServiceMapImpl implements MedicationService {
         totalMedsByBottleSize.put("totalMedsInXL", 0);
         totalMedsByBottleSize.put("totalMedsInXXL", 0);
         totalMedsByBottleSize.put("totalMedsInNA", 0);
-        HashMap<String, Integer> perMedsSupplyCount = new HashMap<String, Integer>();;
+        HashMap<String, Integer> perMedsSupplyCount = new HashMap<String, Integer>();
+
+//        medicationMap.values().stream().filter(medication -> medication.)
+        for (Medication medication : medicationMap.values()) {
+            String medicationId = medication.getMedicationId();
+
+            System.out.println("```````````````````````````````");
+
+            if (perMedsSupplyCount.get(medicationId) == null) {
+                System.out.println("yes");
+                perMedsSupplyCount.put(medicationId, 1);
+            } else {
+                perMedsSupplyCount.put(medicationId, perMedsSupplyCount.get(medicationId) + 1);
+            }
+
+            System.out.println("_______________________________");
+
+
+
+        }
 
         for (Medication medication : medicationMap.values()) {
             // stat 1
@@ -72,12 +91,17 @@ public class MedicationServiceMapImpl implements MedicationService {
                     // code block
             }
 
-            System.out.println("```````````````````````````````");
-            System.out.println(medication.getId());
-            System.out.println(medication.getMedicationId());
-            System.out.println(medication.getBottleSize());
-            System.out.println(medication.getDosageCount());
-            System.out.println("_______________________________");
+            // stat 4
+//            if (perMedsSupplyCount.get(medication.getMedicationId())) {
+
+
+
+//            System.out.println("```````````````````````````````");
+//            System.out.println(medication.getId());
+//            System.out.println(medication.getMedicationId());
+//            System.out.println(medication.getBottleSize());
+//            System.out.println(medication.getDosageCount());
+//            System.out.println("_______________________________");
         }
 
         statistics.put("totalMeds", totalMeds);
@@ -88,7 +112,9 @@ public class MedicationServiceMapImpl implements MedicationService {
         statistics.put("totalMedsInXL", totalMedsByBottleSize.get("totalMedsInXL"));
         statistics.put("totalMedsInXXL", totalMedsByBottleSize.get("totalMedsInXXL"));
         statistics.put("totalMedsInNA", totalMedsByBottleSize.get("totalMedsInNA"));
-        
+        for (String medicationId : perMedsSupplyCount.keySet()) {
+            statistics.put(String.format("Total times supplied with medicationID %s:", medicationId), perMedsSupplyCount.get(medicationId));
+        }
         return statistics;
     }
 }
