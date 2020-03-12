@@ -3,7 +3,7 @@
 ### General
 Thanks for the challenge and for taking a look at my implementation, any feedback is appreciated, especially as the
 first time I have ever seen any Java was in order to complete this challenge! I had never used a statically typed
-language for web dev before, so having to learn something new to complete this challenge Java seemed like an obvious
+language for web dev before, so having to learn something new to complete this challenge, Java seemed like an obvious
 choice.
 
 ### Running Instructions
