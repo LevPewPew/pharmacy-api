@@ -44,11 +44,11 @@ public class Main {
 
     public static void postMedications(String json, MedicationService medicationService) {
 
-        String[] medicationStrings = separateMedicationStrings(json);
+        String[] medicationStrings = Medication.separateMedicationStrings(json);
 
         // split up each string and create a medicine model and add to hash
         for (String medicationString : medicationStrings) {
-            Medication medication = medicationStringToMedicationObject(medicationString);
+            Medication medication = Medication.medicationStringToMedicationObject(medicationString);
 
             try {
                 if (!Medication.validate(medication)) {
@@ -59,45 +59,5 @@ public class Main {
                 System.out.println(ex.getMessage());
             }
         }
-    }
-
-    public static String[] separateMedicationStrings(String json) {
-        String[] medicationStrings = new String[0];
-
-        if (json.contains("[")) {
-            try {
-                MedicationStringsList medicationStringsList = new Gson().fromJson(json, MedicationStringsList.class);
-                List<String> medicationList = medicationStringsList.getMedicationStrings();
-                medicationStrings = medicationList.stream().toArray(String[]::new);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                System.out.println("medicationStrings json format not valid");
-            }
-        } else {
-            try {
-                MedicationStringsString medicationStringsString = new Gson().fromJson(json, MedicationStringsString.class);
-                medicationStrings = medicationStringsString.getMedicationStringsString().split(";");
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                System.out.println("medicationStrings json format not valid");
-            }
-        }
-
-        return medicationStrings;
-    }
-
-    public static Medication medicationStringToMedicationObject(String medicationString) {
-        String[] medicationAttributes = medicationString.split("_");
-        String medicationId = medicationAttributes[0];
-        String bottleSize = medicationAttributes[1];
-        int dosageCount = Integer.parseInt(medicationAttributes[2]);
-        // generate a uniqueId, needed so that statistics can keep track of multiple inputs of the same medicine
-        // by preventing overwriting Medicine with the same medicationId
-        int id = System.identityHashCode(medicationId);
-
-        String formattedJson = String.format("{\"id\":\"%s\", \"medicationId\": \"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, medicationId, bottleSize, dosageCount);
-        Medication medication = new Gson().fromJson(formattedJson, Medication.class);
-
-        return medication;
     }
 }

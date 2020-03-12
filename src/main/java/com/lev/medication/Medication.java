@@ -1,6 +1,9 @@
 package com.lev.medication;
 
+import com.google.gson.Gson;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class Medication {
     private int id;
@@ -47,6 +50,46 @@ public class Medication {
 
     public void setDosageCount(int dosageCount) {
         this.dosageCount = dosageCount;
+    }
+
+    public static String[] separateMedicationStrings(String json) {
+        String[] medicationStrings = new String[0];
+
+        if (json.contains("[")) {
+            try {
+                MedicationStringsList medicationStringsList = new Gson().fromJson(json, MedicationStringsList.class);
+                List<String> medicationList = medicationStringsList.getMedicationStrings();
+                medicationStrings = medicationList.stream().toArray(String[]::new);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                System.out.println("medicationStrings json format not valid");
+            }
+        } else {
+            try {
+                MedicationStringsString medicationStringsString = new Gson().fromJson(json, MedicationStringsString.class);
+                medicationStrings = medicationStringsString.getMedicationStringsString().split(";");
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                System.out.println("medicationStrings json format not valid");
+            }
+        }
+
+        return medicationStrings;
+    }
+
+    public static Medication medicationStringToMedicationObject(String medicationString) {
+        String[] medicationAttributes = medicationString.split("_");
+        String medicationId = medicationAttributes[0];
+        String bottleSize = medicationAttributes[1];
+        int dosageCount = Integer.parseInt(medicationAttributes[2]);
+        // generate a uniqueId, needed so that statistics can keep track of multiple inputs of the same medicine
+        // by preventing overwriting Medicine with the same medicationId
+        int id = System.identityHashCode(medicationId);
+
+        String formattedJson = String.format("{\"id\":\"%s\", \"medicationId\": \"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, medicationId, bottleSize, dosageCount);
+        Medication medication = new Gson().fromJson(formattedJson, Medication.class);
+
+        return medication;
     }
 
     public static boolean validate(Medication medication) {
