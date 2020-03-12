@@ -1,6 +1,6 @@
-import java.util.Collection;
+package com.lev.medication;
+
 import java.util.HashMap;
-import com.lev.medication.Medication;
 
 public class MedicationServiceMapImpl implements MedicationService {
     private HashMap<Integer, Medication> medicationMap;

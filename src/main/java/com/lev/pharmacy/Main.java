@@ -1,3 +1,5 @@
+package com.lev.pharmacy;
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -6,7 +8,8 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.List;
 
-import com.lev.medication.Medication;
+import com.lev.medication.*;
+import com.lev.httpRequest.*;
 
 public class Main {
     public static void main(String[] args) {

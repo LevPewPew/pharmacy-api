@@ -1,6 +1,8 @@
+package com.lev.medication;
+
 import java.util.List;
 
-class MedicationStringsList {
+public class MedicationStringsList {
     private List<String> medicationStrings;
 
     public MedicationStringsList(List<String> medicationStrings) {

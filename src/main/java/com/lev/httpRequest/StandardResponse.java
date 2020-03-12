@@ -1,3 +1,5 @@
+package com.lev.httpRequest;
+
 import com.google.gson.JsonElement;
 
 public class StandardResponse {

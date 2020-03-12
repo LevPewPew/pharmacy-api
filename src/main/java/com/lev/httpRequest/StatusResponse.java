@@ -1,3 +1,5 @@
+package com.lev.httpRequest;
+
 public enum StatusResponse {
     SUCCESS("Success"), ERROR("Error");
 

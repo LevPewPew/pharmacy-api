@@ -1,4 +1,6 @@
-class MedicationStringsString {
+package com.lev.medication;
+
+public class MedicationStringsString {
     private String medicationStrings;
 
     public MedicationStringsString(String medicationStrings) {
