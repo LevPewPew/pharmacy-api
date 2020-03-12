@@ -1,14 +1,12 @@
 # Adnuntius Coding Challenge by Levente Toth
 
-### General Information
-View repo on GitHub at https://github.com/LevPewPew/pharmacy-api
-
+### General
 Thanks for the challenge and for taking a look at my implementation, any feedback is appreciated, especially as the
 first time I have ever seen any Java was in order to complete this challenge! I had never used a statically typed
 language for web dev before, so having to learn something new to complete this challenge Java seemed like an obvious
 choice.
 
-### Running instructions
+### Running Instructions
 
 1. clone the repo `git clone git@github.com:LevPewPew/pharmacy-api.git`
 2. open repo/project in IntelliJ
