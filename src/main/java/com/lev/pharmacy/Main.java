@@ -24,7 +24,8 @@ public class Main {
 
             try {
                 postMedications(req.body(), medicationService);
-                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
+                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS,
+                        "all medicationStrings succesfully submitted!"));
             } catch (Exception ex) {
                 return new Gson().toJson(new StandardResponse(StatusResponse.ERROR,
                         ex.getMessage().concat(" medicationString format not valid")));
