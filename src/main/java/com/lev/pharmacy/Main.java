@@ -32,7 +32,7 @@ public class Main {
             }
         });
 
-        get("/*", (req, res) -> {
+        post("/*", (req, res) -> {
             res.type("application/json");
             res.status(403);
             return new Gson().toJson(new StandardResponse(StatusResponse.ERROR,
