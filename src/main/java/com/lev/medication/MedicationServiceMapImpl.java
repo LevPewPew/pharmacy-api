@@ -9,7 +9,7 @@ public class MedicationServiceMapImpl implements MedicationService {
         medicationMap = new HashMap<>();
     }
 
-    public void addMedicine(Medication medication) {
+    public void addMedication(Medication medication) {
         medicationMap.put(medication.getId(), medication);
     }
 

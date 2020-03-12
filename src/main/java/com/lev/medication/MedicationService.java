@@ -3,7 +3,7 @@ package com.lev.medication;
 import java.util.HashMap;
 
 public interface MedicationService {
-    void addMedicine(Medication medication);
+    void addMedication(Medication medication);
 
     HashMap<String, Integer> getStatistics();
 }
