@@ -34,7 +34,8 @@ public class Main {
         get("/*", (req, res) -> {
             res.type("application/json");
             res.status(403);
-            return "This endpoint does not exist";
+            return new Gson().toJson(new StandardResponse(StatusResponse.ERROR,
+                    " This endpoint does not exist"));
         });
     }
 
