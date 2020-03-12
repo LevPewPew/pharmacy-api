@@ -34,19 +34,18 @@ public class Main {
         });
     }
 
-    public static HashMap<String, Integer> getMedicationsStatistics(MedicationService medicationService) {
+    private static HashMap<String, Integer> getMedicationsStatistics(MedicationService medicationService) {
         return medicationService.getStatistics();
     }
 
-    public static void postMedications(String json, MedicationService medicationService) {
+    private static void postMedications(String json, MedicationService medicationService) {
 
         String[] medicationStrings = Medication.separateMedicationStrings(json);
 
         // split up each string and create a medicine model and add to hash
         for (String medicationString : medicationStrings) {
-            Medication medication = Medication.medicationStringToMedicationObject(medicationString);
-
             try {
+                Medication medication = Medication.medicationStringToMedicationObject(medicationString);
                 if (!Medication.validate(medication)) {
                     throw new Exception("medicationString format not valid");
                 }

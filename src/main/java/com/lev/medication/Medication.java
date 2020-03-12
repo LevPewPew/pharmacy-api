@@ -58,7 +58,7 @@ public class Medication {
             try {
                 MedicationStringsList medicationStringsList = new Gson().fromJson(json, MedicationStringsList.class);
                 List<String> medicationList = medicationStringsList.getMedicationStrings();
-                medicationStrings = medicationList.stream().toArray(String[]::new);
+                medicationStrings = medicationList.toArray(new String[0]);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 System.out.println("medicationStrings json format not valid");
@@ -86,9 +86,8 @@ public class Medication {
         int id = System.identityHashCode(medicationId);
 
         String formattedJson = String.format("{\"id\":\"%s\", \"medicationId\": \"%s\", \"bottleSize\": \"%s\", \"dosageCount\": %s}", id, medicationId, bottleSize, dosageCount);
-        Medication medication = new Gson().fromJson(formattedJson, Medication.class);
 
-        return medication;
+        return new Gson().fromJson(formattedJson, Medication.class);
     }
 
     public static boolean validate(Medication medication) {
